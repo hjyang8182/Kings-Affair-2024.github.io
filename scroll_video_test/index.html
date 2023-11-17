@@ -6,7 +6,7 @@
     <title>Scrolling Background Test</title>
     <style>
         body {
-            background-color: #c6d7de;
+            background-color: black;
             font-family: 'Montserrat';
             padding: 3em;
         }
@@ -124,8 +124,9 @@
 
     <div id="set-height"></div>
 
-    <video id="v0" tabindex="0", autobuffer preload>
-        <source type='video/mp4' src="/assets/placeholder_video.mp4"></source>
+    <video id="v0" tabindex="0", autobuffer preload="auto">
+        <source type='video/webm' src="/assets/placeholder_video_compressed.webm"></source>
+        <source type='video/mp4' src="/assets/placeholder_video_compressed.mp4"></source>
     </video>
     <script src="/js/sticky.js"></script>
     <script>
