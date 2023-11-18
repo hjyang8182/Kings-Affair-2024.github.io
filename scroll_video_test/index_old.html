@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrolling Background Test</title>
-    <!-- <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" /> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         body {
             background-color: black;
@@ -126,55 +124,41 @@
 
     <div id="set-height"></div>
 
-    <video
-    tabindex="0"
-    id="v0"
-    class="video-js"
-    onloadeddata="this.play();"
-    autobuffer
-    controls
-    preload="auto"
-    width="640"
-    height="264"
-    data-setup="{}">
-        <!-- <source type='video/webm' src="/assets/placeholder_video_compressed.webm"></source> -->
-        <source type='video/mp4' src="/assets/placeholder_video_compressed.mp4"></source>
+    <video id="v0" tabindex="0", autobuffer preload="auto">
+        <source type='video/webm' src="/assets/bg/videos/placeholder_video_compressed.webm"></source>
+        <source type='video/mp4' src="/assets/bg/videos/placeholder_video_compressed.mp4"></source>
     </video>
     <script src="/js/sticky.js"></script>
-    <!-- <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script> -->
     <script>
-        // var vid = $('#v0')[0];
-        // var body = document.body;
-        // var html = document.documentElement;
-        // var height = Math.max(body.scrollHeight, body.offsetHeight, 
-        //                html.clientHeight, html.scrollHeight, html.offsetHeight);
-        // const player = videojs('vid1', {});
-        
-        // console.log(height);
+        enterView({
+            selector: 'section',
+            enter: function(el) {
+                el.classList.add('entered');
+            }
+        })
+    
+        var frameNumber = 0, // start video at frame 0
+        // lower numbers = faster playback
+        playbackConst = 500, 
+        // get page height from video duration
+        setHeight = document.getElementById("set-height");
+        // select video element         
+        vid = document.getElementById('v0'); 
+        // var vid = $('#v0')[0]; // jquery option
 
-        // // $(document).ready(function(){
-        // //     var player = $('#v0').get(0);
-        // //     if(player){
-        // //                 current_time=player.currentTime;
-        // //                 player.currentTime=current_time+10;
-        // //             }
-        // //         });
+        // dynamically set the page height according to video length
+        vid.addEventListener('loadedmetadata', function() {
+            setHeight.style.height = Math.floor(vid.duration) * playbackConst + "px";
+        });
 
-        // function scrollPlay() {
-        //     currentTime = vid.currentTime;
-        //     // console.log(currentTime);
-        //     vid.currentTime = currentTime + 1/60;
-        // }
+        // Use requestAnimationFrame for smooth playback
+        function scrollPlay(){  
+            var frameNumber  = window.pageYOffset/playbackConst;
+            vid.currentTime  = frameNumber;
+            window.requestAnimationFrame(scrollPlay);
+        }
 
-        // $(document).ready(function(){    
-        //     maxTime = vid.duration;
-        //     console.log(maxTime);
-        //     setInterval(scrollPlay, 50);
-        //     setInterval(function() {
-        //         var player = videojs.getPlayer('example_video_1');
-        //         console.log(player.currentTime());
-        //     }, 500);
-        // });
+        window.requestAnimationFrame(scrollPlay);
     </script>
 </body>
 </html>
