@@ -4,33 +4,101 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>King's Affair 2024</title>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-FE8K02JJRH"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-FE8K02JJRH");
+    </script>
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Noto+Sans+JP"
     />
+    <script
+      src="https://kit.fontawesome.com/70c60c8db8.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
       body {
         background-color: #000000;
       }
+
       p {
         color: #ffffff;
-        font-size: 60px;
+        font-size: 40px;
         text-align: center;
         font-family: "Noto Sans JP", sans-serif;
         margin: 0;
       }
-      div {
+
+      .container {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
       }
+
+      a {
+        color: #ffffff;
+        margin: 0 10px;
+        font-size: 50px;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+
+      a:hover {
+        color: #a0a0a0;
+      }
+
+      .social-media-icons {
+        width: 100%;
+        margin-top: 5%;
+        text-align: center;
+      }
+
+      iframe {
+        width: 100vh;
+        height: 56.25vh;
+        border: none;
+      }
+
+      .text {
+        margin-top: 5%;
+      }
     </style>
   </head>
   <body>
-    <div>
-      <p>King's Affair 2024</p>
-      <p class="loading">Coming Soon...</p>
+    <div class="container">
+      <div class="video-container">
+        <iframe
+          src="https://drive.google.com/file/d/1qkQ_nX0LfQXFz7jafa204g1LI2atjj-g/preview?start=1"
+          allow="autoplay"
+        ></iframe>
+      </div>
+      <div class="text">
+        <p>King's Affair 2024</p>
+        <p class="loading">Coming Soon...</p>
+      </div>
+      <div class="social-media-icons">
+        <a href="https://www.instagram.com/kingsaffair/" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a
+          href="https://www.facebook.com/profile.php?id=100089874409050"
+          target="_blank"
+        >
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+      </div>
     </div>
   </body>
 </html>
