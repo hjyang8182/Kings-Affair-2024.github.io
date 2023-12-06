@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrolling Background Test</title>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-FE8K02JJRH"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-FE8K02JJRH");
+    </script>
+
+    <style>
+      html {
+        height: 100vh;
+      }
+
+      body {
+        background: #000;
+        height: 3000vh;
+        font-family: "Montserrat";
+        padding: 3em;
+      }
+
+      canvas {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        /* max-height: 100vh; */
+        /* max-width: 200vw; */
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        /* min-height: 100vh; */
+        min-width: 100vw;
+      }
+
+      section {
+        z-index: 1;
+        position: relative;
+      }
+
+      .content {
+        position: sticky;
+        position: -webkit-sticky;
+        width: 100%;
+        top: 10%;
+        z-index: -1;
+        /* vertical center align */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      h1 {
+        font-size: 3em;
+        background: #000000;
+        display: inline-block;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin: 0;
+      }
+
+      p {
+        color: #000000;
+        font-size: 50px;
+        text-align: center;
+        font-family: "Noto Sans JP", sans-serif;
+        margin: 0;
+      }
+
+      section:nth-of-type(1) {
+        height: 1200px;
+      }
+      section:nth-of-type(2) {
+        height: 1200px;
+      }
+      section:nth-of-type(3) {
+        height: 1200px;
+      }
+      section:nth-of-type(4) {
+        height: 1200px;
+      }
+
+      .entered {
+        -webkit-animation: text-focus-in 1s
+          cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+        animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+      }
+
+      @-webkit-keyframes text-focus-in {
+        0% {
+          -webkit-filter: blur(20px);
+          filter: blur(20px);
+          opacity: 0;
+        }
+        100% {
+          -webkit-filter: blur(0px);
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+      @keyframes text-focus-in {
+        0% {
+          -webkit-filter: blur(20px);
+          filter: blur(20px);
+          opacity: 0;
+        }
+        100% {
+          -webkit-filter: blur(0px);
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      /* eslint-env browser */
+      window.alert("Hello World");
+    </script>
+    <section class="container">
+      <div class="content">
+        <p>King's Affair 2024</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="content">
+        <p>slay</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="content">
+        <p>!!!</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="content">
+        <p>html go brrr</p>
+      </div>
+    </section>
+    <canvas id="canvas"></canvas>
+    <script src="/js/sticky.js"></script>
+    <script>
+      enterView({
+        selector: "section",
+        enter: function (el) {
+          el.classList.add("entered");
+        },
+      });
+
+      const html = document.documentElement;
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      const scaleFactor = 1;
+      const frameCount = 789;
+
+      const currentFrame = (index) =>
+        `/assets/bg/images/edited/scene${index
+          .toString()
+          .padStart(3, "0")}.png`;
+
+      const preloadImages = () => {
+        for (let i = 1; i <= frameCount; i++) {
+          const img = new Image();
+          img.src = currentFrame(i);
+        }
+      };
+
+      function preload(index) {
+        index = index || 0;
+        if (index <= frameCount) {
+          var img = new Image();
+          img.onload = function () {
+            preload(index + 1);
+          };
+          img.src = `/assets/test_bg/images/scene${index
+            .toString()
+            .padStart(3, "0")}.png`;
+        }
+      }
+
+      const img = new Image();
+      img.src = currentFrame(1);
+
+      canvas.width = 768 * scaleFactor;
+      canvas.height = 720 * scaleFactor;
+
+      img.onload = function () {
+        // context.drawImage(img, 0, 0);
+        // draw image in center of canvas
+        context.drawImage(
+          img,
+          0,
+          0,
+          img.width * scaleFactor,
+          img.height * scaleFactor
+        );
+      };
+
+      const updateImage = (index) => {
+        img.src = currentFrame(index);
+        // context.drawImage(img, 0, 0);
+        // draw image in center of canvas
+        context.drawImage(
+          img,
+          0,
+          0,
+          img.width * scaleFactor,
+          img.height * scaleFactor
+        );
+      };
+
+      window.addEventListener("scroll", () => {
+        const scrollTop = html.scrollTop;
+        const maxScrollTop = html.scrollHeight - window.innerHeight;
+        const scrollFraction = scrollTop / maxScrollTop;
+        const frameIndex = Math.min(
+          frameCount - 1,
+          Math.ceil(scrollFraction * frameCount)
+        );
+
+        requestAnimationFrame(() => updateImage(frameIndex + 1));
+      });
+
+      preloadImages();
+      // preload();
+    </script>
+  </body>
+</html>

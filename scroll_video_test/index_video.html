@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrolling Background Test</title>
+    <style>
+      body {
+        background-color: black;
+        font-family: "Montserrat";
+        padding: 3em;
+      }
+
+      #v0 {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: 100%;
+        z-index: -100;
+        object-fit: cover;
+      }
+
+      #set-height {
+        display: block;
+        height: 23500px;
+      }
+
+      section {
+        z-index: 1;
+        position: relative;
+      }
+
+      .content {
+        position: sticky;
+        position: -webkit-sticky;
+        width: 100%;
+        top: 20%;
+      }
+
+      h1 {
+        font-size: 3em;
+        background: #fff;
+        display: inline-block;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin: 0;
+      }
+
+      p {
+        color: #fff;
+        font-size: 60px;
+        text-align: center;
+        font-family: "Noto Sans JP", sans-serif;
+        margin: 0;
+      }
+
+      section:nth-of-type(1) {
+        height: 1200px;
+      }
+      section:nth-of-type(2) {
+        height: 1200px;
+      }
+      section:nth-of-type(3) {
+        height: 1200px;
+      }
+      section:nth-of-type(4) {
+        height: 1000px;
+      }
+      section:nth-of-type(5) {
+        height: 4000px;
+      }
+
+      .entered {
+        -webkit-animation: text-focus-in 1s
+          cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+        animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+      }
+
+      @-webkit-keyframes text-focus-in {
+        0% {
+          -webkit-filter: blur(20px);
+          filter: blur(20px);
+          opacity: 0;
+        }
+        100% {
+          -webkit-filter: blur(0px);
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+
+      @keyframes text-focus-in {
+        0% {
+          -webkit-filter: blur(20px);
+          filter: blur(20px);
+          opacity: 0;
+        }
+        100% {
+          -webkit-filter: blur(0px);
+          filter: blur(0px);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <div class="content">
+        <p>King's Affair 2024</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="content">
+        <p>something 2</p>
+      </div>
+    </section>
+    <section class="container">
+      <div class="content">
+        <p>blah blah</p>
+      </div>
+    </section>
+
+    <div id="set-height"></div>
+
+    <video id="v0"></video>
+    <script src="/js/sticky.js"></script>
+    <script>
+      var video = document.getElementById("v0");
+      var url = "/assets/test_bg/videos/placeholder_video_compressed.webm";
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "blob";
+      xhr.onload = function () {
+        if (this.status == 200) {
+          var videoBlob = this.response;
+          var vid = URL.createObjectURL(videoBlob); // IE10+
+          // Video is now downloaded
+          // and we can set it as source on the video element
+          video.src = vid;
+        }
+      };
+      xhr.send();
+
+    </script>
+    <script>
+      enterView({
+        selector: "section",
+        enter: function (el) {
+          el.classList.add("entered");
+        },
+      });
+
+      var frameNumber = 0, // start video at frame 0
+        // lower numbers = faster playback
+        playbackConst = 500,
+        // get page height from video duration
+        setHeight = document.getElementById("set-height");
+      // select video element
+      vid = document.getElementById("v0");
+      // var vid = $('#v0')[0]; // jquery option
+
+      // dynamically set the page height according to video length
+      vid.addEventListener("loadedmetadata", function () {
+        setHeight.style.height =
+          Math.floor(vid.duration) * playbackConst + "px";
+      });
+
+      // Use requestAnimationFrame for smooth playback
+      function scrollPlay() {
+        var frameNumber = window.pageYOffset / playbackConst;
+        vid.currentTime = frameNumber;
+        // window.requestAnimationFrame(scrollPlay);
+      }
+
+      // window.requestAnimationFrame(scrollPlay);
+    </script>
+  </body>
+</html>

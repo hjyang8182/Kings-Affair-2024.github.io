@@ -155,7 +155,7 @@
       const frameCount = 585;
 
       const currentFrame = (index) =>
-        `/assets/bg/images/scene${index.toString().padStart(3, "0")}.png`;
+        `/assets/test_bg/images/scene${index.toString().padStart(3, "0")}.png`;
 
       const preloadImages = () => {
         for (let i = 1; i <= frameCount; i++) {
@@ -163,6 +163,19 @@
           img.src = currentFrame(i);
         }
       };
+
+      function preload(index) {
+        index = index || 0;
+        if (index <= frameCount) {
+          var img = new Image();
+          img.onload = function () {
+            preload(index + 1);
+          };
+          img.src = `/assets/test_bg/images/scene${index
+            .toString()
+            .padStart(3, "0")}.png`;
+        }
+      }
 
       const img = new Image();
       img.src = currentFrame(1);
@@ -208,6 +221,7 @@
       });
 
       preloadImages();
+      // preload();
     </script>
   </body>
 </html>
